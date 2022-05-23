@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <link media="all" rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+
+    <title>Result</title>
+</head>
+<body class="p-3 mb-2 bg-light text-black">
+<div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
+    <div class="alert alert-success fill-parent" th:if="${fileUploadStatus == 'ok'}">
+        <h1 class="display-5">Success</h1>
+        <span>Your changes were successfully saved. Click <a href="/home">here</a> to continue.</span>
+    </div>
+    <div class="alert alert-success fill-parent" th:if="${noteUploadStatus == 'ok'}">
+        <h1 class="display-5">Success</h1>
+        <span>Your changes were successfully saved. Click <a href="/home#nav-notes">here</a> to continue.</span>
+    </div>
+    <div class="alert alert-success fill-parent" th:if="${credentialsUploadStatus == 'ok'}">
+        <h1 class="display-5">Success</h1>
+        <span>Your changes were successfully saved. Click <a href="/home">here</a> to continue.</span>
+    </div>
+    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'emptyFileName'}">
+        <h1 class="display-5">Error</h1>
+        <span>
+            Your changes were not saved.<br>
+            No file name has been specified.<br>
+            <span>Click <a href="/home">here</a> to continue.</span>
+        </span>
+    </div>
+    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'tooLarge'}">
+        <h1 class="display-5">Error</h1>
+        <span>
+            Your changes were not saved.<br>
+            The selected file is too large (max. 2MB).<br>
+        </span>
+        <span>Click <a href="/home">here</a> to continue.</span>
+    </div>
+    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'fileNameAlreadyExists'}">
+        <h1 class="display-5">Error</h1>
+        <span>
+            Your changes were not saved.<br>
+            The selected file name already exists.<br>
+        </span>
+        <span>Click <a href="/home">here</a> to continue.</span>
+    </div>
+    <div class="alert alert-danger fill-parent" th:if="${noteUploadStatus == 'failure'}">
+        <h1 class="display-5">Error</h1>
+        <span>
+            Your changes were not saved.<br>
+        </span>
+        <span>Click <a href="/home#nav-notes">here</a> to continue.</span>
+    </div>
+    <div class="alert alert-danger fill-parent" th:if="${credentialsUploadStatus == 'failure'}">
+        <h1 class="display-5">Error</h1>
+        <span>
+            Your changes were not saved.<br>
+        </span>
+        <span>Click <a href="/home">here</a> to continue.</span>
+    </div>
+    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'failure'}">
+        <h1 class="display-5">Error</h1>
+        <span>
+            Your changes were not saved.<br>
+        </span>
+        <span>Click <a href="/home">here</a> to continue.</span>
+    </div>
+</div>
+</body>
+</html>
