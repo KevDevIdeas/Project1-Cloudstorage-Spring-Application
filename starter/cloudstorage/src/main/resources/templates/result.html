@@ -18,7 +18,7 @@
         <h1 class="display-5">Success</h1>
         <span>Your changes were successfully saved. Click <a href="/home#nav-notes">here</a> to continue.</span>
     </div>
-    <div class="alert alert-success fill-parent" th:if="${credentialsUploadStatus == 'ok'}">
+    <div class="alert alert-success fill-parent" th:if="${credentialUploadStatus == 'ok'}">
         <h1 class="display-5">Success</h1>
         <span>Your changes were successfully saved. Click <a href="/home">here</a> to continue.</span>
     </div>
@@ -53,7 +53,7 @@
         </span>
         <span>Click <a href="/home#nav-notes">here</a> to continue.</span>
     </div>
-    <div class="alert alert-danger fill-parent" th:if="${credentialsUploadStatus == 'failure'}">
+    <div class="alert alert-danger fill-parent" th:if="${credentialUploadStatus == 'failure'}">
         <h1 class="display-5">Error</h1>
         <span>
             Your changes were not saved.<br>

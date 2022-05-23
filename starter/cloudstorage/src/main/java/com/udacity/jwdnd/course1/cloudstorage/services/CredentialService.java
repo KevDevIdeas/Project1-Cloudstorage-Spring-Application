@@ -13,9 +13,9 @@ public class CredentialService {
     private EncryptionService encryptionService;
     private CredentialMapper credentialMapper;
 
-
-    public CredentialService(EncryptionService encryptionService) {
+    public CredentialService(EncryptionService encryptionService, CredentialMapper credentialMapper) {
         this.encryptionService = encryptionService;
+        this.credentialMapper = credentialMapper;
     }
 
     public List<Credential> getCredentials(int userId) {
