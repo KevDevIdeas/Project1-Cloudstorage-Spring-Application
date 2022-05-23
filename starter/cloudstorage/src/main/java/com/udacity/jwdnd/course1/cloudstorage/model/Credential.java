@@ -9,7 +9,7 @@ public class Credential {
     private Integer userId;
     private String decryptedPassword;
 
-    public Credential(Integer credentialId, String url, String username, String key, Integer userId, String password) {
+    public Credential(Integer credentialId, String url, String username, String key, String password, Integer userId) {
         this.credentialId = credentialId;
         this.url = url;
         this.username = username;

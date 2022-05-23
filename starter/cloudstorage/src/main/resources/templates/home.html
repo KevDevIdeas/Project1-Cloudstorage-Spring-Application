@@ -146,21 +146,21 @@
                                 <tbody>
                                 <tr th:each="credential : ${credentialsOnPage}">
                                     <td>
-                                        <button type="button" class="btn btn-success" id=""buttonEditCredential
+                                        <button type="submit" class="btn btn-success" id=""buttonEditCredential
                                                 th:data-credentialId="${credential.credentialId}"
                                                 th:data-url="${credential.url}"
                                                 th:data-username="${credential.username}"
                                                 th:data-key="${credential.key}"
                                                 th:data-password="${credential.password}"
                                                 th:data-decryptedPassword="${credential.decryptedPassword}"
-                                                th:data-credentialUserId="${credential.userId}"
+                                                th:data-userId="${credential.userId}"
                                                 onclick="showCredentialModal(
                                         this.getAttribute('data-credentialId'),
                                         this.getAttribute('data-url'),
                                         this.getAttribute('data-username'),
-                                        this.getAttribute('data-decryptedPassword')
-                                        this.getAttribute('data-credentialUserId')
-                                        )">Edit</button>
+                                        this.getAttribute('data-decryptedPassword'),
+                                        this.getAttribute('data-userId')
+                                        )">View and Edit</button>
                                         <form action="#" th:action="@{/home/credential(credentialId=${credential.credentialId})}" th:method="delete">
                                             <button class="btn btn-danger" id="buttonDeleteCredential" type="submit">Delete</button>
                                         </form>
@@ -185,7 +185,7 @@
                                     <div class="modal-body">
                                         <form id="credentialForm" th:object="${newCredential}" th:action="@{/home/credential}" action="#" method="POST">
                                             <input type="hidden" name="credentialId" id="credential-id">
-                                            <input type="hidden" name="userId" id="credential-userId">
+                                            <input type="hidden" name="userId" id="userId">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
                                                 <input type="text" th:field="*{url}" name= "url" class="form-control" id="credential-url" maxlength="100" required>
@@ -236,7 +236,7 @@
 
             // For opening the credentials modal
 
-            function showCredentialModal(credentialId, url, username, decryptedPassword) {
+            function showCredentialModal(credentialId, url, username, decryptedPassword, userId) {
 
              if(credentialId !== undefined){
                     $("#credentialForm").prepend("<input type='hidden' name='_method' value='PUT'>");
@@ -246,6 +246,7 @@
                 $('#credential-url').val(url ? url : '');
                 $('#credential-username').val(username ? username : '');
                 $('#credential-decryptedPassword').val(decryptedPassword ? decryptedPassword : '');
+                $('#credential-userId').val(userId ? userId : '');
                 $('#credentialModal').modal('show');
             }
         </script>

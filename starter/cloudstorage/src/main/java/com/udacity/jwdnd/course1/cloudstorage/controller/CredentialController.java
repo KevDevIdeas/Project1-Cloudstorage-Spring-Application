@@ -27,8 +27,10 @@ public class CredentialController {
         Integer userId = userService.getUserIdByName(authentication.getName());
         credential.setUserId(userId);
         System.out.println("credential will now be added for user with userId: " + userId);
+
         try {
             credentialService.createCredential(credential);
+            System.out.println("credential has been added with password encrpyted: " + credential.getPassword() + " password deccrypted: "+ credential.getDecryptedPassword() + " key: " + credential.getKey());
             model.addAttribute("credentialUploadStatus", "ok");
 
         } catch (Exception e) {
@@ -38,30 +40,28 @@ public class CredentialController {
         return "result";
     }
 
-    /*
     @PutMapping
-    public String putNote (Authentication authentication, @ModelAttribute("newNote") Note note, Model model) {
+    public String putCredential (Authentication authentication, @ModelAttribute("newCredential") Credential credential, Model model) {
         Integer userId = userService.getUserIdByName(authentication.getName());
-        System.out.println("note update of note with noteId: " + note.getNoteId());
+        System.out.println("credential update of credential with credentialId: " + credential.getCredentialId());
         try {
-            noteService.updateNote(note);
-            model.addAttribute("noteUploadStatus", "ok");
+            credentialService.updateCredential(credential);
+            model.addAttribute("credentialUploadStatus", "ok");
         } catch (Exception e) {
-            model.addAttribute("noteUploadStatus", "failure");
+            model.addAttribute("credentialUploadStatus", "failure");
         }
             return "result";
     }
 
     @DeleteMapping
-    public String deleteNote ( @RequestParam(name = "noteId") Integer noteId, Model model) {
-        System.out.println("note deletion of note with noteId: " + noteId);
+    public String deleteCredential ( @RequestParam(name = "credentialId") Integer credentialId, Model model) {
+        System.out.println("deletion of credential with credentialId: " + credentialId);
         try {
-            noteService.deleteNote(noteId);
-            model.addAttribute("noteUploadStatus", "ok");
+            credentialService.deleteCredential(credentialId);
+            model.addAttribute("credentialUploadStatus", "ok");
         } catch (Exception e) {
-            model.addAttribute("noteUploadStatus", "failure");
+            model.addAttribute("credentialUploadStatus", "failure");
         }
         return "result";
     }
-*/
 }
