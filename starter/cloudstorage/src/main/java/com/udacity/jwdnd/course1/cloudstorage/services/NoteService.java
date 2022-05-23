@@ -44,7 +44,7 @@ public class NoteService {
         for (final Note row : notes) {
             System.out.format("%08d %-17s %-17s %08d%n", row.getNoteId(), row.getNoteTitle(), row.getNoteDescription(), row.getUserId());
         }
-        return noteMapper.getNotes(userId);
+        return notes;
     }
 
 }

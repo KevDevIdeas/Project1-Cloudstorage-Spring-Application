@@ -85,7 +85,11 @@
                                         this.getAttribute('data-noteId'),
                                         this.getAttribute('data-noteTitle'),
                                         this.getAttribute('data-noteDescription'))">Edit</button>
-                                            <a class="btn btn-danger" id="buttonDeleteNote" th:href="@{/home/note?noteId={noteId}(noteId=${note.noteId})}" th:action="@{/home/note}" action="#" method="DELETE">Delete</a>
+
+                                            <form action="#" th:action="@{/home/note(noteId=${note.noteId})}" th:method="delete">
+                                                <button class="btn btn-danger" id="buttonDeleteNote" type="submit">Delete</button>
+                                            </form>
+
                                         </td>
                                         <th scope="row" th:text="${note.noteTitle}">Example Note Title</th>
                                         <td th:text="${note.noteDescription}">Example Note Description </td>
@@ -142,7 +146,7 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
+                                        <button type="button" class="btn btn-success">Edit newCredential</button>
                                         <a class="btn btn-danger">Delete</a>
                                     </td>
                                     <th scope="row">Example Credential URL</th>

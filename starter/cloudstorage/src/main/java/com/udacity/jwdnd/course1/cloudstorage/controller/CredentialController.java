@@ -1,6 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
@@ -9,35 +11,34 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/home/note")
-public class NoteController {
-    private NoteService noteService;
-    private UserService userService;
+@RequestMapping("/home/credential")
+public class CredentialController {
 
-    public NoteController(NoteService noteService, UserService userService) {
-        this.noteService = noteService;
+    private UserService userService;
+    private CredentialService credentialService;
+
+    public CredentialController(UserService userService, CredentialService credentialService) {
         this.userService = userService;
+        this.credentialService = credentialService;
     }
 
     @PostMapping
-    public String postNote (Authentication authentication, @ModelAttribute("newNote") Note note, Model model) {
+    public String postCredential (Authentication authentication, @ModelAttribute("newCredential") Credential credential, Model model) {
         Integer userId = userService.getUserIdByName(authentication.getName());
-        note.setUserId(userId);
-        System.out.println("note will now be added for user with userId: " + userId);
+        credential.setUserId(userId);
+        System.out.println("credential will now be added for user with userId: " + userId);
         try {
-            noteService.addNote(note);
-            model.addAttribute("noteUploadStatus", "ok");
-            System.out.println("Inside Result Controller:   noteId:"+note.getNoteId());
-            System.out.println("Inside Result Controller:   noteTitle:"+note.getNoteTitle());
-            System.out.println("Inside Result Controller:   noteDescription:"+note.getNoteDescription());
+            credentialService.createCredential(credential);
+            model.addAttribute("credentialUploadStatus", "ok");
 
         } catch (Exception e) {
-            model.addAttribute("noteUploadStatus", "failure");
+            model.addAttribute("credentialUploadStatus", "failure");
         }
 
         return "result";
     }
 
+    /*
     @PutMapping
     public String putNote (Authentication authentication, @ModelAttribute("newNote") Note note, Model model) {
         Integer userId = userService.getUserIdByName(authentication.getName());
@@ -62,5 +63,5 @@ public class NoteController {
         }
         return "result";
     }
-
+*/
 }

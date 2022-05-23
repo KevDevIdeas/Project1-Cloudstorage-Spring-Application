@@ -19,14 +19,19 @@ public class SignupController {
     }
 
     @GetMapping
-    public String getSignUpPage (Model model) {
+    public String getSignUpPage(Model model) {
         return "signup";
     }
 
     @PostMapping
-    public String postSignup (User user, Model model) {
-        userService.createUser(user);
-        return "login";
+    public String postSignup(User user, Model model) {
+        if (userService.createUser(user)) {
+            model.addAttribute("userCreatedStatus", "ok");
+            return "login";
+        } else {
+            model.addAttribute("userCreatedStatus", "failure");
+            return "signup";
+        }
     }
-
 }
+
