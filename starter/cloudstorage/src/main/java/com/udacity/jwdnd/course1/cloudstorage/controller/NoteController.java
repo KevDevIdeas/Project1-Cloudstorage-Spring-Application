@@ -26,13 +26,13 @@ public class NoteController {
         System.out.println("note will now be added for user with userId: " + userId);
         try {
             noteService.addNote(note);
-            model.addAttribute("noteUploadStatus", "ok");
+            model.addAttribute("changeStatus", "ok");
             System.out.println("Inside Result Controller:   noteId:"+note.getNoteId());
             System.out.println("Inside Result Controller:   noteTitle:"+note.getNoteTitle());
             System.out.println("Inside Result Controller:   noteDescription:"+note.getNoteDescription());
 
         } catch (Exception e) {
-            model.addAttribute("noteUploadStatus", "failure");
+            model.addAttribute("changeStatus", "failure");
         }
 
         return "result";
@@ -44,9 +44,9 @@ public class NoteController {
         System.out.println("note update of note with noteId: " + note.getNoteId());
         try {
             noteService.updateNote(note);
-            model.addAttribute("noteUploadStatus", "ok");
+            model.addAttribute("changeStatus", "ok");
         } catch (Exception e) {
-            model.addAttribute("noteUploadStatus", "failure");
+            model.addAttribute("changeStatus", "failure");
         }
             return "result";
     }
@@ -56,9 +56,9 @@ public class NoteController {
         System.out.println("note deletion of note with noteId: " + noteId);
         try {
             noteService.deleteNote(noteId);
-            model.addAttribute("noteUploadStatus", "ok");
+            model.addAttribute("changeStatus", "ok");
         } catch (Exception e) {
-            model.addAttribute("noteUploadStatus", "failure");
+            model.addAttribute("changeStatus", "failure");
         }
         return "result";
     }

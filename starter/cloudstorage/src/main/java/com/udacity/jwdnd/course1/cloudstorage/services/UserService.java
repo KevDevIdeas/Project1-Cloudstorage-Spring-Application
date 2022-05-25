@@ -18,10 +18,6 @@ public class UserService {
         this.userMapper = userMapper;
         this.hashService = hashService;
     }
-//TODO: include check if user is available before creating it --> most likely in create User that should throw an exception if not available
-    public boolean isUsernameAvailable(String username) {
-        return userMapper.getUser(username) == null;
-    }
 
     public boolean createUser(User user) {
         SecureRandom random = new SecureRandom();

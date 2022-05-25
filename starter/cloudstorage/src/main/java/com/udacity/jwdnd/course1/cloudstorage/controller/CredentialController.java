@@ -31,10 +31,10 @@ public class CredentialController {
         try {
             credentialService.createCredential(credential);
             System.out.println("credential has been added with password encrpyted: " + credential.getPassword() + " password deccrypted: "+ credential.getDecryptedPassword() + " key: " + credential.getKey());
-            model.addAttribute("credentialUploadStatus", "ok");
+            model.addAttribute("changeStatus", "ok");
 
         } catch (Exception e) {
-            model.addAttribute("credentialUploadStatus", "failure");
+            model.addAttribute("changeStatus", "failure");
         }
 
         return "result";
@@ -46,9 +46,9 @@ public class CredentialController {
         System.out.println("credential update of credential with credentialId: " + credential.getCredentialId());
         try {
             credentialService.updateCredential(credential);
-            model.addAttribute("credentialUploadStatus", "ok");
+            model.addAttribute("changeStatus", "ok");
         } catch (Exception e) {
-            model.addAttribute("credentialUploadStatus", "failure");
+            model.addAttribute("changeStatus", "failure");
         }
             return "result";
     }
@@ -58,9 +58,9 @@ public class CredentialController {
         System.out.println("deletion of credential with credentialId: " + credentialId);
         try {
             credentialService.deleteCredential(credentialId);
-            model.addAttribute("credentialUploadStatus", "ok");
+            model.addAttribute("changeStatus", "ok");
         } catch (Exception e) {
-            model.addAttribute("credentialUploadStatus", "failure");
+            model.addAttribute("changeStatus", "failure");
         }
         return "result";
     }

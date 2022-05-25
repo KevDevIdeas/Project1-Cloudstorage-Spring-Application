@@ -10,23 +10,24 @@
 </head>
 <body class="p-3 mb-2 bg-light text-black">
 <div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
-    <div class="alert alert-success fill-parent" th:if="${fileUploadStatus == 'ok'}">
+    <div class="alert alert-success fill-parent" th:if="${changeStatus == 'ok'}">
         <h1 class="display-5">Success</h1>
         <span>Your changes were successfully saved. Click <a href="/home">here</a> to continue.</span>
     </div>
-    <div class="alert alert-success fill-parent" th:if="${noteUploadStatus == 'ok'}">
-        <h1 class="display-5">Success</h1>
-        <span>Your changes were successfully saved. Click <a href="/home#nav-notes">here</a> to continue.</span>
-    </div>
-    <div class="alert alert-success fill-parent" th:if="${credentialUploadStatus == 'ok'}">
-        <h1 class="display-5">Success</h1>
-        <span>Your changes were successfully saved. Click <a href="/home">here</a> to continue.</span>
-    </div>
-    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'emptyFileName'}">
+
+    <div class="alert alert-danger fill-parent" th:if="${changeStatus == 'failure'}">
         <h1 class="display-5">Error</h1>
         <span>
             Your changes were not saved.<br>
-            No file name has been specified.<br>
+        </span>
+        <span>Click <a href="/home">here</a> to continue.</span>
+    </div>
+
+    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'noFileName'}">
+        <h1 class="display-5">Error</h1>
+        <span>
+            Your changes were not saved.<br>
+            The file has no name specified.<br>
             <span>Click <a href="/home">here</a> to continue.</span>
         </span>
     </div>
@@ -42,31 +43,19 @@
         <h1 class="display-5">Error</h1>
         <span>
             Your changes were not saved.<br>
-            The selected file name already exists.<br>
+            A file with the same name already exists.<br>
         </span>
         <span>Click <a href="/home">here</a> to continue.</span>
     </div>
-    <div class="alert alert-danger fill-parent" th:if="${noteUploadStatus == 'failure'}">
+    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'noFileSelected'}">
         <h1 class="display-5">Error</h1>
         <span>
             Your changes were not saved.<br>
-        </span>
-        <span>Click <a href="/home#nav-notes">here</a> to continue.</span>
-    </div>
-    <div class="alert alert-danger fill-parent" th:if="${credentialUploadStatus == 'failure'}">
-        <h1 class="display-5">Error</h1>
-        <span>
-            Your changes were not saved.<br>
+            No file has been selected, please choose a file before clicking the upload button.<br>
         </span>
         <span>Click <a href="/home">here</a> to continue.</span>
     </div>
-    <div class="alert alert-danger fill-parent" th:if="${fileUploadStatus == 'failure'}">
-        <h1 class="display-5">Error</h1>
-        <span>
-            Your changes were not saved.<br>
-        </span>
-        <span>Click <a href="/home">here</a> to continue.</span>
-    </div>
+
 </div>
 </body>
 </html>

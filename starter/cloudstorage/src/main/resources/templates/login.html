@@ -18,8 +18,9 @@
                 <div  id="logout-msg" th:if="${logoutSuccessStatus == 'success'}" class="alert alert-dark">
                     You have been logged out successfully
                 </div>
-                <div class="alert alert-dark" id="messageSignupSuccess" th:if="${userCreatedStatus == 'ok'}">
+                <div class="alert alert-success fill-parent" id="messageSignupSuccess" th:if="${userCreatedStatus == 'ok'}">
                     You successfully signed up!
+                    You can login now.
                 </div>
                 <div class="form-group">
                     <label for="inputUsername">Username</label>
