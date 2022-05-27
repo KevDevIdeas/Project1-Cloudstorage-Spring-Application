@@ -34,12 +34,12 @@ class CloudStorageApplicationTests {
 		baseURL = "http://localhost:" + this.port;
 	}
 
-	/*@AfterEach
+	@AfterEach
 	public void afterEach() {
 		if (this.driver != null) {
 			driver.quit();
 		}
-	}*/
+	}
 
 	@Test
 	public void getLoginPage() {
@@ -131,6 +131,50 @@ class CloudStorageApplicationTests {
 
 	}
 
+//Write a test that creates a set of credentials, verifies that they are displayed, and verifies that the displayed password is encrypted.
+//Write a test that views an existing set of credentials, verifies that the viewable password is unencrypted, edits the credentials, and verifies that the changes are displayed.
+//Write a test that deletes an existing set of credentials and verifies that the credentials are no longer displayed.
+
+	@Test
+	public void credentialsTesting() {
+		String username = "CredentialTesting";
+		String password = "CredentialPW";
+		String url = "FirstCredentialURL";
+		String credentialUsername = "FirstCredentialUsername";
+		String credentialDecryptedPassword = "FirstDecryptedPw";
+
+		String urlEdit = "EditCredentialURL";
+		String credentialUsernameEdit = "EditCredentialUsername";
+		String credentialDecryptedPasswordEdit = "EditDecryptedPw";
+
+		//signUp and Login
+		driver.get(baseURL + "/signup");
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.registerAndLoginPage("Credential", "Testing", username, password);
+
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.login(username, password);
+
+		//Credential creation, Result page, Check if created Credential is listed
+		HomePage homePage = new HomePage(driver);
+		homePage.addNewCredential(url, credentialUsername,credentialDecryptedPassword, driver);
+		Assertions.assertTrue(homePage.checkResultPage(driver));
+		homePage.accessCredentialTab(driver);
+		Assertions.assertTrue(homePage.checkCredentialsTable(url, credentialUsername, credentialDecryptedPassword, driver));
+
+		//Credential edit. First Assertion checks if in the credential edit modal the decrypted password can be seen
+		Assertions.assertTrue(homePage.editCredential(urlEdit, credentialUsernameEdit, credentialDecryptedPasswordEdit, credentialDecryptedPassword, driver));
+		Assertions.assertTrue(homePage.checkResultPage(driver));
+		homePage.accessCredentialTab(driver);
+		Assertions.assertTrue(homePage.checkCredentialsTable(urlEdit, credentialUsernameEdit, credentialDecryptedPasswordEdit, driver));
+
+		//Credential deletion
+		homePage.deleteCredential(driver);
+		Assertions.assertTrue(homePage.checkResultPage(driver));
+		homePage.accessCredentialTab(driver);
+		Assertions.assertFalse(homePage.checkCredentialsTable(urlEdit, credentialUsernameEdit, credentialDecryptedPasswordEdit, driver));
+	}
+
 
 
 
@@ -139,8 +183,7 @@ class CloudStorageApplicationTests {
 	 * Helper method for Udacity-supplied sanity checks.
 	 **/
 
-
-private void doMockSignUp(String firstName, String lastName, String userName, String password){
+	private void doMockSignUp(String firstName, String lastName, String userName, String password){
 		// Create a dummy account for logging in later.
 
 		// Visit the sign-up page.

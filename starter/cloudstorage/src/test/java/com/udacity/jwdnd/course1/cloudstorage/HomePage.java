@@ -36,9 +36,38 @@ public class HomePage {
     @FindBy(id="buttonDeleteNote")
     private WebElement deleteNoteButton;
 
+
     //Credential Elements
     @FindBy(id="nav-credentials-tab")
     private WebElement credentialsTab;
+
+    @FindBy(id="addCredentialButton")
+    private WebElement addCredentialButton;
+
+    @FindBy(id="credential-url")
+    private WebElement credentialUrlInputField;
+
+    @FindBy(id="credential-username")
+    private WebElement credentialUsernameInputField;
+
+    @FindBy(id="credential-decryptedPassword")
+    private WebElement credentialDecryptedPasswordInputField;
+
+    @FindBy(id="buttonSubmitCredentialsForm")
+    private WebElement credentialFormSubmitButton;
+
+    @FindBy(id="editCredentialButton")
+    private WebElement editCredentialButton;
+
+    @FindBy(id="buttonDeleteCredential")
+    private WebElement buttonDeleteCredential;
+
+    @FindBy(id="usernameOnTable")
+    private WebElement usernameOnTable;
+
+    @FindBy(id="credentialTable")
+    private WebElement credentialTable;
+
 
 
     //Output elements
@@ -81,18 +110,18 @@ public class HomePage {
 
     }
 
-    //TODO: continue here change everything to Credentials
-    public void addNewCredential(String credential, String noteDescription, WebDriver driver){
+    public void addNewCredential(String url, String userName, String password, WebDriver driver){
         accessCredentialTab(driver);
-        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.visibilityOfAllElements(driver.findElement(By.id("addNoteButton"))));
-        addNoteButton.click();
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.visibilityOfAllElements(driver.findElement(By.id("credentialTable"))));
+        addCredentialButton.click();
 
-        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.and(ExpectedConditions.visibilityOf(noteTitleInputField), ExpectedConditions.visibilityOf(noteDescriptionInputField)));
-        noteTitleInputField.sendKeys(noteTitle);
-        noteDescriptionInputField.sendKeys(noteDescription);
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.and(ExpectedConditions.visibilityOf(credentialUrlInputField),ExpectedConditions.visibilityOf(credentialDecryptedPasswordInputField), ExpectedConditions.visibilityOf(credentialUsernameInputField)));
+        credentialUrlInputField.sendKeys(url);
+        credentialUsernameInputField.sendKeys(userName);
+        credentialDecryptedPasswordInputField.sendKeys(password);
 
-        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(noteFormSubmitButton));
-        noteFormSubmitButton.click();
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(credentialFormSubmitButton));
+        credentialFormSubmitButton.click();
 
     }
 
@@ -109,7 +138,7 @@ public class HomePage {
         }
     }
 
-
+    //checking Tables after adding an element
     public boolean checkNotesTable(String expectedNoteTitle, String expectedNoteDescription, WebDriver driver){
         boolean noteTitleAndDescriptionCheck = false;
 
@@ -130,6 +159,28 @@ public class HomePage {
 
     }
 
+    public boolean checkCredentialsTable(String expectedUrl, String expectedUserName, String decryptedPassword, WebDriver driver){
+        boolean credentialEditAttributesCheck = false;
+
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.visibilityOf(credentialTable));
+
+        try {
+            String url = editCredentialButton.getAttribute("data-url");
+            String username = editCredentialButton.getAttribute("data-username");
+            String encryptedPassword = editCredentialButton.getAttribute("data-password");
+
+            if (expectedUrl.equals(url) && expectedUserName.equals(username) && !decryptedPassword.equals(encryptedPassword)) {
+                credentialEditAttributesCheck = true;
+            }
+        }catch(Exception e){
+            credentialEditAttributesCheck = false;
+
+        }
+        return credentialEditAttributesCheck;
+
+    }
+
+    //editing Notes and Credentials
     public void editNote(String noteTitleEdit, String noteDescriptionEdit, WebDriver driver){
         new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(editNoteButton));
         editNoteButton.click();
@@ -145,24 +196,42 @@ public class HomePage {
 
     }
 
-    public void deleteNote(WebDriver driver){
-        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(deleteNoteButton));
-        deleteNoteButton.click();
+    public boolean editCredential(String urlEdit, String userNameEdit, String passwordEdit, String decryptedPassword, WebDriver driver){
+        boolean passwordCheckEditModal = false;
 
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(editCredentialButton));
+        editCredentialButton.click();
+
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.and(ExpectedConditions.visibilityOf(credentialUrlInputField),ExpectedConditions.visibilityOf(credentialDecryptedPasswordInputField), ExpectedConditions.visibilityOf(credentialUsernameInputField)));
+
+        String passwordFromEditModal = editCredentialButton.getAttribute("data-decryptedpassword");
+        if (passwordFromEditModal.equals(decryptedPassword)) {
+            passwordCheckEditModal = true;
+        }
+        credentialUrlInputField.clear();
+        credentialUrlInputField.sendKeys(urlEdit);
+        credentialUsernameInputField.clear();
+        credentialUsernameInputField.sendKeys(userNameEdit);
+        credentialDecryptedPasswordInputField.clear();
+        credentialDecryptedPasswordInputField.sendKeys(passwordEdit);
+
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(credentialFormSubmitButton));
+        credentialFormSubmitButton.click();
+
+        return passwordCheckEditModal;
     }
 
 
+    //deleting Notes and Credentials
 
+    public void deleteNote(WebDriver driver){
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(deleteNoteButton));
+        deleteNoteButton.click();
+    }
 
-
-
-
-
-
-    //Write a test that creates a note, and verifies it is displayed.
-//Write a test that edits an existing note and verifies that the changes are displayed.
-//Write a test that deletes a note and verifies that the note is no longer displayed.
-
-
+    public void deleteCredential(WebDriver driver){
+        new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds()).until(ExpectedConditions.elementToBeClickable(buttonDeleteCredential));
+        buttonDeleteCredential.click();
+    }
 
 }

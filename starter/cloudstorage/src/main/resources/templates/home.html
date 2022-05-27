@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
+                        <button style="margin: 0.25em;" type="button" id="addCredentialButton" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
                         </button>
 
@@ -148,7 +148,7 @@
                                 <tbody>
                                 <tr th:each="credential : ${credentialsOnPage}">
                                     <td>
-                                        <button type="submit" class="btn btn-success" id=""buttonEditCredential
+                                        <button class="btn btn-success" id="editCredentialButton" type="submit"
                                                 th:data-credentialId="${credential.credentialId}"
                                                 th:data-url="${credential.url}"
                                                 th:data-username="${credential.username}"
@@ -168,7 +168,7 @@
                                         </form>
                                     </td>
                                     <th scope="row" th:text="${credential.url}">Example Credential URL</th>
-                                    <td th:text="${credential.username}">Example Credential Username</td>
+                                    <td th:text="${credential.username}" id="usernameOnTable">Example Credential Username</td>
                                     <td th:text="${credential.password}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
