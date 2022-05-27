@@ -18,9 +18,8 @@
                 <div  id="logout-msg" th:if="${logoutSuccessStatus == 'success'}" class="alert alert-dark">
                     You have been logged out successfully
                 </div>
-                <div class="alert alert-success fill-parent" id="messageSignupSuccess" th:if="${userCreatedStatus == 'ok'}">
-                    You successfully signed up!
-                    You can login now.
+                <div class="alert alert-success fill-parent" id="messageSignupSuccess" th:href="@{/login}" th:if="${userCreatedStatus == 'ok'}">
+                    You successfully signed up! You can login now.
                 </div>
                 <div class="form-group">
                     <label for="inputUsername">Username</label>
@@ -34,7 +33,7 @@
             </form>
 
             <div class="form-group" style="margin-top: 0.5em;">
-                <label><a id="signup-link" th:href="@{/signup}">Click here to sign up</a></label>
+                <label><a id="signup-link" href="/signup">Click here to sign up</a></label>
             </div>
         </div>
     </body>

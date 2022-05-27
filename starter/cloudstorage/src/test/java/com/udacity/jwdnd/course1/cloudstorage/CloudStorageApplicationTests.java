@@ -50,11 +50,21 @@ class CloudStorageApplicationTests {
 	@Test
 	public void getSignupPage() {
 		driver.get("http://localhost:" + this.port + "/signup");
-		Assertions.assertEquals("Signup", driver.getTitle());
+		Assertions.assertEquals("Sign Up", driver.getTitle());
 	}
 
+
+// Write a test that verifies that an unauthorized user can only access the login and signup pages.
 	@Test
-	public void registerAndLogin() {
+	public void unAuthorizedUser(){
+		driver.get(baseURL + "/home");
+		Assertions.assertFalse(driver.getCurrentUrl().contains("/home"));
+		Assertions.assertTrue(driver.getCurrentUrl().contains("/login"));
+
+	}
+// Write a test that signs up a new user, logs in, verifies that the home page is accessible, logs out, and verifies that the home page is no longer accessible.
+	@Test
+	public void loginLogoutURLCheck() {
 		String username = "KevTestData";
 		String password = "RANDOM";
 
@@ -64,11 +74,65 @@ class CloudStorageApplicationTests {
 		SignupPage signupPage = new SignupPage(driver);
 		signupPage.registerAndLoginPage("Kev", "TestData", username, password);
 
-		driver.get(baseURL + "/login");
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.login(username, password);
+		// check if user is on home page now
+		Assertions.assertTrue(driver.getCurrentUrl().contains("/home"));
+		// finds logout button and logs out
+		WebElement logoutButton = driver.findElement(By.id("logout-button"));
+		logoutButton.click();
+		// trying access the home page again but without prior clicking on login
+		driver.get(baseURL + "/home");
+		Assertions.assertFalse(driver.getCurrentUrl().contains("/home"));
+		// still on loginPage
+		Assertions.assertTrue(driver.getCurrentUrl().contains("/login"));
+	}
+
+//Write a test that creates a note, and verifies it is displayed.
+//Write a test that edits an existing note and verifies that the changes are displayed.
+//Write a test that deletes a note and verifies that the note is no longer displayed.
+
+	@Test
+	public void notesTesting() {
+		String username = "NoteTesting";
+		String password = "NotePW";
+		String noteTitle = "FirstAddedNoteTitle";
+		String noteDescription = "FirstAddedNoteDescription";
+		String noteTitleEdit = "EditedNoteTitle";
+		String noteDescriptionEdit = "EditedNoteDescription";
+
+		//signUp and Login
+		driver.get(baseURL + "/signup");
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.registerAndLoginPage("Note", "Testing", username, password);
 
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.login(username, password);
+
+		//Note creation, Result page, Check if created Note is listed
+		HomePage homePage = new HomePage(driver);
+		homePage.addNewNote(noteTitle, noteDescription, driver);
+		Assertions.assertTrue(homePage.checkResultPage(driver));
+		homePage.accessNoteTab(driver);
+		Assertions.assertTrue(homePage.checkNotesTable(noteTitle, noteDescription, driver));
+
+		//Note edit
+		homePage.editNote(noteTitleEdit,noteDescriptionEdit, driver);
+		Assertions.assertTrue(homePage.checkResultPage(driver));
+		homePage.accessNoteTab(driver);
+		Assertions.assertTrue(homePage.checkNotesTable(noteTitleEdit, noteDescriptionEdit, driver));
+
+		//Note deletion
+		homePage.deleteNote(driver);
+		Assertions.assertTrue(homePage.checkResultPage(driver));
+		homePage.accessNoteTab(driver);
+		Assertions.assertFalse(homePage.checkNotesTable(noteTitleEdit, noteDescriptionEdit, driver));
+
+
 	}
+
+
+
 
 	/**
 	 * PLEASE DO NOT DELETE THIS method.
@@ -115,7 +179,7 @@ private void doMockSignUp(String firstName, String lastName, String userName, St
 		// success message below depening on the rest of your code.
 		*/
 
-		Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
+		Assertions.assertTrue(driver.findElement(By.id("messageSignupSuccess")).getText().contains("You successfully signed up! You can login now."));
 	}
 
 	
@@ -167,7 +231,7 @@ private void doMockSignUp(String firstName, String lastName, String userName, St
 		doMockSignUp("Redirection","Test","RT","123");
 		
 		// Check if we have been redirected to the log in page.
-		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
+		Assertions.assertEquals("http://localhost:" + this.port + "/login?userCreatedStatus=true", driver.getCurrentUrl());
 	}
 
 	/**

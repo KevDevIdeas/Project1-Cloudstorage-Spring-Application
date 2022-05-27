@@ -23,6 +23,7 @@ public class LoginController {
     public String getLoginPage (
             @RequestParam(required = false, name = "logout") boolean logout,
             @RequestParam(required = false, name = "error") String error,
+            @RequestParam(required = false, name = "userCreatedStatus") boolean userCreatedStatus,
             Model model) {
 
         //in case of failed login (e.g. user doesn't exist or wrong credentials)
@@ -33,13 +34,10 @@ public class LoginController {
         if (logout) {
             model.addAttribute("logoutSuccessStatus", "success");
         }
+        if (userCreatedStatus) {
+            model.addAttribute("userCreatedStatus", "ok");
+        }
 
-        return "login";
-    }
-
-    @PostMapping
-    public String postLogin (User user, Model model) {
-        userService.createUser(user);
         return "login";
     }
 

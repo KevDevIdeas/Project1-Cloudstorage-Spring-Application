@@ -29,7 +29,7 @@ public class FileController {
     }
 
     @PostMapping
-        public String handleFileUpload (@RequestParam("fileUpload") MultipartFile fileUpload, Authentication authentication, Model model) throws IOException {
+        public String handleFileUpload (MultipartFile fileUpload, Authentication authentication, Model model) throws IOException {
         Integer userId = userService.getUserIdByName(authentication.getName());
 
         if (fileService.checkIfFileExists(fileUpload.getOriginalFilename(), userId)) {

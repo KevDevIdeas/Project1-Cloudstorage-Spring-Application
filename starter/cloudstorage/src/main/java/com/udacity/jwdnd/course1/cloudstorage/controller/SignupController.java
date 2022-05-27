@@ -26,8 +26,7 @@ public class SignupController {
     @PostMapping
     public String postSignup(User user, Model model) {
         if (userService.createUser(user)) {
-            model.addAttribute("userCreatedStatus", "ok");
-            return "login";
+            return "redirect:/login?userCreatedStatus=true";
         } else {
             model.addAttribute("userCreatedStatus", "failure");
             return "signup";
